@@ -92,6 +92,37 @@ Security: .env is excluded from Git and should not contain real secrets in publi
 CI / GitHub Actions
 The repository contains GitHub Actions workflows under `.github/workflows/` which install dependencies, browsers, run tests and can generate/upload reports (see `playwright.yml`).
 
+GitHub Actions + Allure
+To make Allure work in GitHub Actions, the workflow must generate a real HTML report first and grant the required pull-request/check permissions. The Allure GitHub Action reads `summary.json` from the generated report and posts a summary comment in pull requests.
+
+Required permissions:
+```yaml
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+```
+
+Required workflow step:
+```yaml
+- name: Generate Allure Report
+  if: always()
+  run: npm run allure:generate
+
+- name: Run Allure GitHub Action
+  if: always()
+  uses: allure-framework/allure-action@v0
+  with:
+    report-directory: ./allure-report
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    sections: |
+      new
+      flaky
+      retry
+```
+
+Without these permissions and without generating the HTML report first, the Allure GitHub Action will not post the summary or open correctly in GitHub.
+
 Available npm scripts (selected)
 - npm test — run Playwright tests
 - npm run test:ui — Playwright UI mode

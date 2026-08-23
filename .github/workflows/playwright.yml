@@ -2,6 +2,15 @@ name: Playwright UI Tests
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
 
 jobs:
   test:
@@ -36,6 +45,17 @@ jobs:
       - name: Generate Allure Report
         if: always()
         run: npm run allure:generate
+
+      - name: Run Allure GitHub Action
+        if: always()
+        uses: allure-framework/allure-action@v0
+        with:
+          report-directory: ./allure-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          sections: |
+            new
+            flaky
+            retry
 
       - name: Upload Allure Report
         if: always()
