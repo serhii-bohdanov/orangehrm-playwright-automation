@@ -7,7 +7,6 @@ on:
   pull_request:
     branches: [main]
 
-# top-level permissions: required for Pages deployment
 permissions:
   contents: write
   pages: write
@@ -48,7 +47,7 @@ jobs:
         if: always()
         run: npm run allure:generate
 
-      - name: Upload Allure Report (artifact)
+      - name: Upload Allure Report Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -56,7 +55,7 @@ jobs:
           path: allure-report/
           retention-days: 30
 
-      - name: Upload Playwright Report (artifact)
+      - name: Upload Playwright Report Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -64,8 +63,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      # Deploy Allure Report to GitHub Pages using gh-pages branch
-      - name: Deploy Allure Report to GitHub Pages
+      - name: Deploy to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -74,26 +72,13 @@ jobs:
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
 
-      # Add report links to job summary
       - name: Add Report Links to Summary
         if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const runId = context.runId;
-            const { owner, repo } = context.repo;
-            const allureUrl = `https://${owner}.github.io/${repo}`;
-            const artifactUrl = `https://github.com/${owner}/${repo}/suites/${runId}/artifacts`;
-            
-            core.summary
-              .addHeading('📊 Test Reports Available')
-              .addBreak()
-              .addLink('🏠 View Allure Report (Public)', allureUrl)
-              .addBreak()
-              .addLink('📈 Download Allure Report (Artifact)', artifactUrl)
-              .addBreak()
-              .addLink('🎭 Download Playwright Report (Artifact)', artifactUrl)
-              .addBreak()
-              .write();
-              
-            core.notice(`Allure Report: ${allureUrl}`);
+        run: |
+          echo "## 📊 Test Reports Available" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🏠 **[View Allure Report (Public)](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📥 **[Download Allure Report (Artifact)](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts)**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📥 **[Download Playwright Report (Artifact)](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts)**" >> $GITHUB_STEP_SUMMARY
