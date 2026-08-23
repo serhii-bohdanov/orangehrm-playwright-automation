@@ -11,6 +11,8 @@ permissions:
   contents: read
   pull-requests: write
   checks: write
+  pages: write
+  id-token: write
 
 jobs:
   test:
@@ -46,17 +48,6 @@ jobs:
         if: always()
         run: npm run allure:generate
 
-      - name: Run Allure GitHub Action
-        if: always()
-        uses: allure-framework/allure-action@v0
-        with:
-          report-directory: ./allure-report
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          sections: |
-            new
-            flaky
-            retry
-
       - name: Upload Allure Report
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,6 +64,13 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Deploy Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+
       - name: Add Allure Report Link to Summary
         if: always()
         uses: actions/github-script@v7
@@ -81,10 +79,10 @@ jobs:
             const runId = context.runId;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const artifactUrl = `https://github.com/${owner}/${repo}/actions/runs/${runId}`;
+            const reportUrl = `https://${owner}.github.io/${repo}/`;
             core.summary
               .addHeading('📊 Test Reports Available')
-              .addLink('📈 Download Allure Report', artifactUrl)
+              .addLink('📈 View Allure Report', reportUrl)
               .addBreak()
-              .addLink('🎭 Download Playwright Report', artifactUrl)
+              .addLink('🎭 Download Playwright Report', `https://github.com/${owner}/${repo}/actions/runs/${runId}`)
               .write();
