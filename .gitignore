@@ -13,3 +13,6 @@ test-results/
 # Allure
 allure-results/
 allure-report/
+
+#Credentials
+.env
