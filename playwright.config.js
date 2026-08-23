@@ -26,7 +26,7 @@ export default defineConfig({
 
     use: {
         headless: true,
-        baseURL: process.env.BASE_URL || undefined,
+        baseURL: process.env.BASE_URL,
         viewport: null,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
