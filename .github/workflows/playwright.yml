@@ -34,6 +34,8 @@ jobs:
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          BASE_URL: ${{ secrets.BASE_URL }}
 
       - name: Generate Allure Report
         if: always()

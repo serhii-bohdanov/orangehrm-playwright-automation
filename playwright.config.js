@@ -26,7 +26,7 @@ export default defineConfig({
 
     use: {
         headless: true,
-        baseURL: 'https://opensource-demo.orangehrmlive.com/',
+        baseURL: process.env.BASE_URL || undefined,
         viewport: null,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
