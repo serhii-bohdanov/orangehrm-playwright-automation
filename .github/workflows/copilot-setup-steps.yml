@@ -1,0 +1,58 @@
+name: "Copilot Setup Steps - Playwright MCP"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # This job MUST be named `copilot-setup-steps` to be picked up by Copilot
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers and dependencies
+        run: npx playwright install --with-deps
+
+      - name: Start MCP server if npm script exists
+        run: |
+          if node -e "const fs=require('fs'); if(!fs.existsSync('package.json')) process.exit(2); const p=JSON.parse(fs.readFileSync('package.json','utf8')); process.exit(!(p.scripts && p.scripts['start:mcp']));"; then
+            echo "Starting MCP server via npm run start:mcp (background)..."
+            # Start in background and detach so Copilot's agent can use it after setup steps complete
+            nohup npm run start:mcp > /tmp/mcp-server.log 2>&1 &
+            sleep 5
+            echo "MCP server started (check /tmp/mcp-server.log)."
+          else
+            echo "No start:mcp script found in package.json; skipping MCP server start."
+          fi
+
+      - name: Verify MCP server (optional)
+        run: |
+          if [ -f package.json ] && node -e "const p=require('./package.json'); process.exit(!(p.scripts && p.scripts['start:mcp']));"; then
+            echo "MCP server log (last 50 lines):"
+            tail -n 50 /tmp/mcp-server.log || true
+          else
+            echo "No MCP server to verify."
+          fi
+
+      - name: Print environment note
+        run: |
+          echo "Setup complete. If your project requires a different MCP startup command, add a 'start:mcp' npm script."
