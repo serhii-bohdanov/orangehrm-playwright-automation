@@ -29,8 +29,8 @@ jobs:
         run: npm test
         env:
           CI: true
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          MAIN_USER_USERNAME: ${{ secrets.USERNAME }}
+          MAIN_USER_PASSWORD: ${{ secrets.PASSWORD }}
           BASE_URL: ${{ secrets.BASE_URL }}
 
       - name: Generate Allure Report
