@@ -67,7 +67,7 @@ jobs:
       # Upload the generated HTML directory as a Pages artifact (official flow)
       - name: Upload Pages artifact (Allure)
         if: always()
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./allure-report
 
@@ -75,7 +75,7 @@ jobs:
       - name: Deploy to GitHub Pages
         if: always()
         id: deploy-pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
 
       # Add the Pages URL (or fallback to artifact) to the job summary for convenience
       - name: Add Allure Report Link to Summary
