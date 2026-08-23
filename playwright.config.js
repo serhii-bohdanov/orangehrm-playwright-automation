@@ -1,6 +1,6 @@
 // @ts-check
 import 'dotenv/config';
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
     testDir: './tests',
@@ -13,13 +13,23 @@ export default defineConfig({
 
     workers: process.env.CI ? 1 : undefined,
 
-    reporter: 'html',
+    reporter: [
+        ['list'],
+        ['html'],
+        [
+            'allure-playwright',
+            {
+                resultsDir: 'allure-results',
+            },
+        ],
+    ],
 
     use: {
-        headless: false,
+        headless: true,
         baseURL: 'https://opensource-demo.orangehrmlive.com/',
         viewport: null,
         screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
         trace: 'on-first-retry',
     },
 
@@ -27,6 +37,7 @@ export default defineConfig({
         {
             name: 'chromium',
             use: {
+                ...devices['Desktop Chrome'],
                 browserName: 'chromium',
                 launchOptions: {
                     args: ['--start-maximized'],

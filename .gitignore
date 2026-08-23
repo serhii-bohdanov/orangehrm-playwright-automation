@@ -1,9 +1,15 @@
 
-# Playwright
+# Playwright General
 node_modules/
-/test-results/
-/playwright-report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
 .idea/
+
+# Playwright Reports
+playwright-report/
+test-results/
+
+# Allure
+allure-results/
+allure-report/

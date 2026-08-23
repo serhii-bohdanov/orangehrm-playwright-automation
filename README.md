@@ -101,9 +101,3 @@ Available npm scripts (selected)
 - npm run allure:open — open report
 - npm run allure:serve — serve generated report locally
 - npm run start:mcp — start Playwright MCP
-
-Learning goals
-The project is intended as a learning / portfolio project to practice UI automation with Playwright, test design patterns (POM), fixtures, reporting and CI/CD.
-
-Contributing
-Contributions, issues and feature requests are welcome. Please follow repository guidelines and avoid committing secrets.
