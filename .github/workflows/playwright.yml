@@ -31,7 +31,7 @@ jobs:
           CI: true
           MAIN_USER_USERNAME: ${{ secrets.MAIN_USER_USERNAME }}
           MAIN_USER_PASSWORD: ${{ secrets.MAIN_USER_PASSWORD }}
-          BASE_URL: ${{ secrets.BASE_URL }}
+          BASE_URL: ${{ vars.BASE_URL }}
 
       - name: Generate Allure Report
         if: always()
