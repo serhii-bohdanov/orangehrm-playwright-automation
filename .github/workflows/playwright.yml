@@ -37,7 +37,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run UI tests
-        run: npm test
+        run: npx playwright test tests/ui
         env:
           CI: true
           MAIN_USER_USERNAME: ${{ secrets.MAIN_USER_USERNAME }}
@@ -85,4 +85,23 @@ jobs:
           script: |
             const runId = context.runId;
             const { owner, repo } = context.repo;
-  
+            try {
+              const res = await github.rest.repos.getPages({ owner, repo });
+              const url = res.data.html_url;
+              core.summary
+                .addHeading('📊 Test Reports Available')
+                .addLink('🏠 Hosted Allure Report', url)
+                .addBreak()
+                .addLink('📈 Download Allure Report (artifact)', `https://github.com/${owner}/${repo}/suites/${runId}/artifacts`)
+                .addBreak()
+                .addLink('🎭 Download Playwright Report (artifact)', `https://github.com/${owner}/${repo}/suites/${runId}/artifacts`)
+                .write();
+            } catch (err) {
+              core.warning('Pages URL not available yet — falling back to artifact links.');
+              core.summary
+                .addHeading('📊 Test Reports Available')
+                .addLink('📈 Download Allure Report (artifact)', `https://github.com/${owner}/${repo}/suites/${runId}/artifacts`)
+                .addBreak()
+                .addLink('🎭 Download Playwright Report (artifact)', `https://github.com/${owner}/${repo}/suites/${runId}/artifacts`)
+                .write();
+            }
