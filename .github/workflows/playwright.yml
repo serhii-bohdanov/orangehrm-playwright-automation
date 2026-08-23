@@ -31,6 +31,9 @@ jobs:
 
       - name: Run UI tests
         run: npm run test:ui
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
 
       - name: Generate Allure Report
         if: always()
