@@ -37,16 +37,19 @@ Project structure
 Note: Generated report and artifact folders should be ignored by Git (.gitignore).
 
 Prerequisites
-- Node.js 16+ (recommended)
+- Node.js 24.x.x
 - npm
 
 Setup
 1. Clone the repository
    git clone https://github.com/serhii-bohdanov/orangehrm-playwright-automation-.git
    cd orangehrm-playwright-automation-
-2. Install dependencies
+2. Use Node 24 locally (recommended)
+   nvm install 24
+   nvm use 24
+3. Install dependencies
    npm install
-3. Install Playwright browsers
+4. Install Playwright browsers
    npx playwright install
 
 Running tests
