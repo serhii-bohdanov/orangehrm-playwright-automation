@@ -52,3 +52,19 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+      - name: Add Allure Report Link to Summary
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runId = context.runId;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const artifactUrl = `https://github.com/${owner}/${repo}/actions/runs/${runId}`;
+            core.summary
+              .addHeading('📊 Test Reports Available')
+              .addLink('📈 Download Allure Report', artifactUrl)
+              .addBreak()
+              .addLink('🎭 Download Playwright Report', artifactUrl)
+              .write();
