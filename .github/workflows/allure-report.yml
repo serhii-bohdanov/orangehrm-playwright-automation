@@ -1,4 +1,4 @@
-name: Allure Report Generation
+name: Run Automation Tests
 
 on:
   workflow_dispatch:
@@ -11,12 +11,6 @@ on:
         options:
           - UI
           - API
-
-  push:
-    branches: [ main ]
-
-  pull_request:
-    branches: [ main ]
 
 permissions:
   contents: write
@@ -45,7 +39,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run UI tests
-        if: ${{ inputs.suite == 'UI' || inputs.suite == '' }}
+        if: ${{ inputs.suite == 'UI' }}
         run: npx playwright test tests/ui
         env:
           CI: true
