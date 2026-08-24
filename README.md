@@ -93,7 +93,7 @@ PASSWORD=your_password
 Security: .env is excluded from Git and should not contain real secrets in public repositories. Use secret management for CI (GitHub Actions secrets).
 
 CI / GitHub Actions
-The repository contains GitHub Actions workflows under `.github/workflows/` which install dependencies, browsers, run tests and can generate/upload reports (see `playwright.yml`).
+The repository contains GitHub Actions workflows under `.github/workflows/` which install dependencies, browsers, run tests and can generate/upload reports (see `allure-report.yml`).
 
 GitHub Actions + Allure
 To make Allure work in GitHub Actions, the workflow must generate a real HTML report first and grant the required pull-request/check permissions. The Allure GitHub Action reads `summary.json` from the generated report and posts a summary comment in pull requests.
