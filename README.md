@@ -10,6 +10,7 @@ Tech stack
 - Node.js
 - Page Object Model (POM)
 - Playwright fixtures
+- REST API (Playwright APIRequestContext)
 - Allure Report (allure-playwright)
 - GitHub Actions
 - dotenv
@@ -17,11 +18,15 @@ Tech stack
 Project structure
 - tests/                # Test specifications
 - pages/                # Page object classes and actions
+- api/                  # API client classes and endpoints
 - fixtures/             # Reusable setup and custom fixtures
 - utils/                # Helpers, constants and utilities
 - locators/             # Centralized element locators
-- configs/              # Environment/configuration files
+- config/               # Environment/configuration files
 - test-data/            # Test data
+
+- .github/
+  └── workflows/        # GitHub Actions workflows
 
 - allure-results/       # Generated Allure test results (do not commit)
 - allure-report/        # Generated Allure HTML report (do not commit)
@@ -97,34 +102,6 @@ The repository contains GitHub Actions workflows under `.github/workflows/` whic
 
 GitHub Actions + Allure
 To make Allure work in GitHub Actions, the workflow must generate a real HTML report first and grant the required pull-request/check permissions. The Allure GitHub Action reads `summary.json` from the generated report and posts a summary comment in pull requests.
-
-Required permissions:
-```yaml
-permissions:
-  contents: read
-  pull-requests: write
-  checks: write
-```
-
-Required workflow step:
-```yaml
-- name: Generate Allure Report
-  if: always()
-  run: npm run allure:generate
-
-- name: Run Allure GitHub Action
-  if: always()
-  uses: allure-framework/allure-action@v0
-  with:
-    report-directory: ./allure-report
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    sections: |
-      new
-      flaky
-      retry
-```
-
-Without these permissions and without generating the HTML report first, the Allure GitHub Action will not post the summary or open correctly in GitHub.
 
 Available npm scripts (selected)
 - npm test — run Playwright tests
