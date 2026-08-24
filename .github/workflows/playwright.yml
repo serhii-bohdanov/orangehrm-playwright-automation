@@ -3,9 +3,9 @@ name: Playwright UI Tests
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 permissions:
   contents: write
@@ -75,10 +75,5 @@ jobs:
       - name: Add Report Links to Summary
         if: always()
         run: |
-          echo "## 📊 Test Reports Available" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🏠 **[View Allure Report (Public)](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})**" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📥 **[Download Allure Report (Artifact)](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts)**" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📥 **[Download Playwright Report (Artifact)](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts)**" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Test Report Available"
+          echo "🏠 **[Allure Report URL ](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})**"

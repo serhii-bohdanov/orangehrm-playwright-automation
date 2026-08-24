@@ -1,4 +1,4 @@
-const { test, expect } = require('../../../fixtures/authorization.fixture');
+const { test, expect } = require('../../../fixtures/ui-auth.fixture');
 const { BasePage } = require('../../../pages/base/BasePage');
 const { NavigationMenu } = require('../../../test-data/navigation-menu');
 
