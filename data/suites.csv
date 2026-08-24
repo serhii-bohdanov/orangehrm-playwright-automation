@@ -1,4 +1,4 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","11277","Check that left navigation menu is present on the main page","chromium","2026-08-24","passed","2026-08-24","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
-"","26160","Check that left navigation menu items are clickable and have valid header names","chromium","2026-08-24","passed","2026-08-24","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
-"","14113","Check that user is able to log in to the app","chromium","2026-08-24","passed","2026-08-24","Authorization tests","ui/login/authorization.spec.js","",""
+"","27876","Check that left navigation menu items are clickable and have valid header names","chromium","2026-08-24","passed","2026-08-24","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
+"","5450","Check that user is able to log in to the app","chromium","2026-08-24","passed","2026-08-24","Authorization tests","ui/login/authorization.spec.js","",""
+"","6236","Check that left navigation menu is present on the main page","chromium","2026-08-24","passed","2026-08-24","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
