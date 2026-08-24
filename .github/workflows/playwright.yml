@@ -1,9 +1,20 @@
-name: Playwright UI Tests
+name: Run Automation Tests
 
 on:
   workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Select test suite'
+        required: true
+        default: UI
+        type: choice
+        options:
+          - UI
+          - API
+
   push:
     branches: [ main ]
+
   pull_request:
     branches: [ main ]
 
@@ -11,8 +22,6 @@ permissions:
   contents: write
   pages: write
   id-token: write
-  pull-requests: write
-  checks: write
 
 jobs:
   test:
@@ -36,7 +45,17 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run UI tests
-        run: npm test
+        if: ${{ inputs.suite == 'UI' || inputs.suite == '' }}
+        run: npx playwright test tests/ui
+        env:
+          CI: true
+          MAIN_USER_USERNAME: ${{ secrets.MAIN_USER_USERNAME }}
+          MAIN_USER_PASSWORD: ${{ secrets.MAIN_USER_PASSWORD }}
+          BASE_URL: ${{ vars.BASE_URL }}
+
+      - name: Run API tests
+        if: ${{ inputs.suite == 'API' }}
+        run: npx playwright test tests/api
         env:
           CI: true
           MAIN_USER_USERNAME: ${{ secrets.MAIN_USER_USERNAME }}
@@ -44,27 +63,29 @@ jobs:
           BASE_URL: ${{ vars.BASE_URL }}
 
       - name: Generate Allure Report
-        if: always()
+        if: ${{ always() }}
         run: npm run allure:generate
 
       - name: Upload Allure Report Artifact
-        if: always()
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report/
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Upload Playwright Report Artifact
-        if: always()
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Deploy to GitHub Pages
-        if: always()
+        if: ${{ always() }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -73,7 +94,7 @@ jobs:
           user_email: github-actions[bot]@users.noreply.github.com
 
       - name: Add Report Links to Summary
-        if: always()
+        if: ${{ always() }}
         run: |
-          echo "## 📊 Test Report Available"
-          echo "🏠 **[Allure Report URL ](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})**"
+          echo "## 📊 Test Report Available" >> $GITHUB_STEP_SUMMARY
+          echo "🏠 **[Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})**" >> $GITHUB_STEP_SUMMARY
