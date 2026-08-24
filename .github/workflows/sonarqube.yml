@@ -24,5 +24,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=serhii-bohdanov
-            -Dsonar.organization=serhii-bohdanov_orangehrm-playwright-automation
+            -Dsonar.projectKey=serhii-bohdanov_orangehrm-playwright-automation
+            -Dsonar.organization=serhii-bohdanov
