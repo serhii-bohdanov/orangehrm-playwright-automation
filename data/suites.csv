@@ -1,4 +1,5 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","17107","Check that left navigation menu items are clickable and have valid header names","chromium","2026-08-23","passed","2026-08-23","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
-"","3784","Check that user is able to log in to the app","chromium","2026-08-23","passed","2026-08-23","Authorization tests","ui/login/authorization.spec.js","",""
-"","4929","Check that left navigation menu is present on the main page","chromium","2026-08-23","passed","2026-08-23","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
+"","4429","Check that user is able to log in to the app","chromium","2026-08-24","passed","2026-08-24","Authorization tests","ui/login/authorization.spec.js","",""
+"","14322","Check that left navigation menu is present on the main page","chromium","2026-08-24","passed","2026-08-24","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
+"","302","Check that My Actions endpoint returned 200 status","chromium","2026-08-24","failed","2026-08-24","","api/dashboard.spec.js","",""
+"","31907","Check that left navigation menu items are clickable and have valid header names","chromium","2026-08-24","broken","2026-08-24","Left Navigation Menu tests","ui/main-page/left-navigation-menu.spec.js","",""
